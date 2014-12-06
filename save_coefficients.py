@@ -1,7 +1,7 @@
 import pickle
 
 
-fin = open("coefficients.txt",'r')
+fin = open("keel_coefficients.txt",'r')
 
 coefficients = dict()
 
@@ -17,5 +17,5 @@ for line in fin:
 
 print coefficients[alpha]
 
-pickle.dump(coefficients,open("coefficients.p",'w'))
+pickle.dump(coefficients,open("keel_coefficients.p",'w'))
 fin.close()

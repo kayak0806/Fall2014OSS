@@ -2,6 +2,8 @@
 # http://airfoiltools.com/airfoil/details?airfoil=e379-il
 # rynold's number: ~200,000
 # http://airfoiltools.com/calculator/reynoldsnumber
+# keel:
+# http://airfoiltools.com/polar/details?polar=xf-naca0006-il-100000
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -13,7 +15,9 @@ class Boat(object):
     def __init__(self,main_sail):
         self.main_sail = main_sail
         self.mass = 54
-        self.coef = pickle.load(open("coefficients.p",'r'))
+        self.vel = Vector(2,0, polar=True)
+        self.sail_coef = pickle.load(open("coefficients.p",'r'))
+        self.keel_coef = pickle.load(open("keel_coefficients.py",'r'))
 
     def get_force(self,wind):
         AoA = self.get_AoA(wind)
@@ -27,33 +31,37 @@ class Boat(object):
         windspeed = wind[0]
         p = 1.225  # kg/m^3
         A = 6.968  # m^2 (for sunfish)
-        Cl = self.get_coef(AoA)[0]
+        Cl = self.get_sail_coef(AoA)[0]
         lift = (0.5)*p*A*Cl*windspeed**2
-        # hat = np.array([-1,1])/(2**0.5) # TDDO
-        return Force(lift, AoA,polar=True)
+        return Vector(lift, AoA,polar=True)
     def sail_drag(self, wind, AoA = 45):
         # D = 1/2 pressure (wind velocity)^2 area Cd
         windspeed = wind[0]
         p = 1.225  # kg/m^3
         A = 6.968  # m^2 (for sunfish)
-        Cd = self.get_coef(AoA)[1]
+        Cd = self.get_sail_coef(AoA)[1]
         drag = (0.5)*p*A*Cd*windspeed**2
-        # hat = np.array([-1,-1])/(2**0.5) #TODO
-        return Force(drag,(270+AoA),polar=True)
+        return Vector(drag,(270+AoA),polar=True)
     def keel_lift(self,speed):
         # L = 1/2 pressure (water velocity)^2 area Cl
         # TODO
+        p = 0
+        A = 0
         AoA = 0 # diff b/w boat vel dir and boat dir
-        lift = 10
-        hat = np.array([0,0])
-        return Force(0,0)
+        Cl = self.get_keel_coef(AOA)[0]
+        lift = (0.5)*p*A*Cl*waterspeed**2
+        return Vector(0,0)
 
-    def get_coef(self,alpha):
+    def get_sail_coef(self,alpha):
         # alpha is between -8 and 12
         # returns (C_lift,C_drag)
-        alphas = sorted(self.coef.keys())
+        alphas = sorted(self.sail_coef.keys())
         closest = min(alphas, key=lambda x:abs(x-alpha))
-        return self.coef[closest]
+        return self.sail_coef[closest]
+    def get_keel_coef(self,alpha):
+    	alphas = sorted(self.keel_coef.keys())
+    	closest = min(alphas, key=lambda x:abs(x-alpha))
+    	return self.keel_coef[closest]
 
     def get_AoA(self,wind):
         return wind[1] - (self.main_sail+90)
@@ -68,7 +76,7 @@ class Boat(object):
     def __str__(self):
         return "Main sail set to %d degrees"%self.main_sail
 
-class Force(object):
+class Vector(object):
     def __init__(self,a,b, polar=False):
         if polar:
             # a = radius, b = angle in degrees
@@ -99,7 +107,7 @@ class Force(object):
     def __add__(a,b):
         x = a.x+b.x
         y = a.y+b.y
-        return Force(x,y)
+        return Vector(x,y)
 
 def get_wind(mag,angle):
     '''if wind is accross starboard bow, 
@@ -124,7 +132,7 @@ def find_AoA(boat,wind):
 
 def plot_wind(angles,fmag,fang):
     plt.plot(angles,fmag,'ro')
-    plt.plot(angles,fang,'bo')
+    # plt.plot(angles,fang,'bo')
     # plt.xlim([90,270])
     plt.show()
 
@@ -144,7 +152,7 @@ for i in range(180):
     fang.append(bert.get_force(wind).angle())
     print "--------------"
     # print "wind %d m/s at %d degrees"%wind
-    # print bert.get_coef(wind[1])
+    # print bert.get_sail_coef(wind[1])
     print bert.get_force(wind)
 plot_wind(angles,fmag,fang)
 
