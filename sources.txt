@@ -1,0 +1,14 @@
+Good desctiption of forces and angles in relation to hull and keel:
+http://www.oceansail.co.uk/articles/keelsandruddersarticle.html
+
+On boat tilt:
+http://www.nauticed.org/sailing-blog/why-a-sailboat-does-not-tip-over/
+
+Sail Airfoil:
+# EPPLER 379 AIRFOIL
+# http://airfoiltools.com/airfoil/details?airfoil=e379-il
+# rynold's number: ~200,000
+# http://airfoiltools.com/calculator/reynoldsnumber
+
+Keel Airfoil:
+# http://airfoiltools.com/polar/details?polar=xf-naca0006-il-100000
