@@ -1,0 +1,52 @@
+Order of Operations
+
+Make a boat (it's name is Bert)
+	Bert doesn't run any functions yet
+	They ask for an initial mainsail setting
+	and grab the coeficients from pickle
+	TESTED (insofar as you can test an init function)
+Make a wind thing
+	It's really just a tuple, but it's forced to be 90-270
+	ie. from top to bottom counterclockwise
+	TESTED (wind_test)
+Set boat sail angle
+	only works if it's between 0 and 90
+	TESTED (really? you wanted me to test this?)
+Calculate the angle of attack of the wind on the sail
+	It's the angle betM the wind and the saile
+	Tricky part: the wind is measured from east
+	but the sail is measured from south
+	TESTED (good thing, too)
+Calculate the lift and drag caused by the sail and keel
+Sail Lift:
+Sail Drag:
+Keel Lift:
+Keel Drag:
+Calculate the angle of the boat
+	The boat doesn't point exactly in the direction it's moving
+	In order for the keel to be useful, it must be at a slight
+	angle to the incoming water stream.
+	This angle will automatically be chosen to balance out the 
+	forces of the keel and sails so that the boat doesn't 
+	spin in the water.
+
+
+
+
+
+Nest:
+find_sail_angle
+	get_force
+		get_wind_AoA
+		get_keel_AoA
+			get_wind_AoA
+			[all the lifts and drags]
+		sail_lift
+			Vector
+			get_sail_coef
+		sail_drag
+		keel_lift
+			Vector
+			get_keel_coef
+		keel_drag
+	set_sail
