@@ -1,34 +1,61 @@
 Order of Operations
 
 Make a boat (it's name is Bert)
-	Bert doesn't run any functions yet
-	They ask for an initial mainsail setting
-	and grab the coeficients from pickle
-	TESTED (insofar as you can test an init function)
+    Bert doesn't run any functions yet
+    They ask for an initial mainsail setting
+    and grab the coeficients from pickle
+    TESTED (insofar as you can test an init function)
 Make a wind thing
-	It's really just a tuple, but it's forced to be 90-270
-	ie. from top to bottom counterclockwise
-	TESTED (wind_test)
+    It's really just a tuple, but it's forced to be 90-270
+    ie. from top to bottom counterclockwise
+    TESTED (wind_test)
 Set boat sail angle
-	only works if it's between 0 and 90
-	TESTED (really? you wanted me to test this?)
+    only works if it's between 0 and 90
+    TESTED (really? you wanted me to test this?)
 Calculate the angle of attack of the wind on the sail
-	It's the angle betM the wind and the saile
-	Tricky part: the wind is measured from east
-	but the sail is measured from south
-	TESTED (good thing, too)
+    It's the angle b/w the wind and the sail
+    Tricky part: the wind is measured from east
+    but the sail is measured from south
+    but what matters is diff b/w wind and -sail
+    TESTED (merp :)
+Get the lift and drag coeficients for the sails
+    Coeficients are saved as a dictionary with the 
+    angle of attack (alpha) as the key and the lift
+    and drag coeficient pairs as values.
+    If the  function returns the value pair with the alpha
+    closest to the one given, unless alpha is out of range
+    in which case it returns 0.
+    TESTED (that was easy)
+Get the lift and drag coeficients for the keel
+    Coeficients are saved as a dictionary with the 
+    angle of attack (alpha) as the key and the lift
+    and drag coeficient pairs as values.
+    If the  function returns the value pair with the alpha
+    closest to the one given, unless alpha is out of range
+    in which case it returns 0.
+    TESTED (that was easy)
 Calculate the lift and drag caused by the sail and keel
 Sail Lift:
+    Equation for lift is L = 1/2 density (wind velocity)^2 area Cd
+    drag should increase with wind magnitude
+    lift/alpha should be similar to source coeficient graph,
+    peaking just before 10degrees
 Sail Drag:
+    Equation for lift is D = 1/2 density (wind velocity)^2 area Cl
+    drag should increase with wind magnitude
+    drag/alpha should be similar to source coeficient graph,
+    dips just before 5degrees
 Keel Lift:
+    Same as sail stuff, peaks around 8 degrees
 Keel Drag:
+    Same as sail stuff, wide dip around 0 degrees 
 Calculate the angle of the boat
-	The boat doesn't point exactly in the direction it's moving
-	In order for the keel to be useful, it must be at a slight
-	angle to the incoming water stream.
-	This angle will automatically be chosen to balance out the 
-	forces of the keel and sails so that the boat doesn't 
-	spin in the water.
+    The boat doesn't point exactly in the direction it's moving
+    b/c in order for the keel to be useful, it must be at a slight
+    angle to the incoming water stream.
+    This angle will automatically be chosen to balance out the 
+    forces of the keel and sails so that the boat doesn't 
+    drift sidways in the water.
 
 
 
@@ -36,17 +63,17 @@ Calculate the angle of the boat
 
 Nest:
 find_sail_angle
-	get_force
-		get_wind_AoA
-		get_keel_AoA
-			get_wind_AoA
-			[all the lifts and drags]
-		sail_lift
-			Vector
-			get_sail_coef
-		sail_drag
-		keel_lift
-			Vector
-			get_keel_coef
-		keel_drag
-	set_sail
+    get_force
+        get_wind_AoA
+        get_keel_AoA
+            get_wind_AoA
+            [all the lifts and drags]
+        sail_lift
+            Vector
+            get_sail_coef
+        sail_drag
+        keel_lift
+            Vector
+            get_keel_coef
+        keel_drag
+    set_sail
